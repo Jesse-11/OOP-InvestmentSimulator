@@ -11,10 +11,10 @@ class User
     public:
 
         User(const string& username, const string& password)
-        : username(username), password(password) {}
+        : username(username), password(password) {} // constructor for username and password
 
         bool Authenticate(const string& enteredPassword) const 
-        { return password == enteredPassword; }
+        { return password == enteredPassword; } // used to check and store the entered password
 
 
         // getters
@@ -23,8 +23,17 @@ class User
 
         const string& GetUsername() const 
         { return username; }
-            
+        
+        // setters
+        void SetUsername(const string& username) 
+        { this->username = username; }
+
+        void SetPassword(const string& password) 
+        { this->password = password; }
+
+
     private:
+
         string username;
         string password;
         vector<Investment> investments;
