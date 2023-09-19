@@ -5,4 +5,4 @@ Group Members:
 1. Jesse Hoppo
 2. Arthur Perets
 
-**The University Of Adelaide: COMP SCI 1102**
+The University Of Adelaide: COMP SCI 1102 
