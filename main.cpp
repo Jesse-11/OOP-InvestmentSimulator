@@ -1,95 +1,55 @@
-#include <iostream> 
+#include <iostream>
+#include <iomanip>
 #include <string>
-#include <fstream>
+#include <thread>
+#include <chrono>
 #include <vector>
-#include <sstream>
-#include <algorithm>
-#include <ctime>
+#include "Investment.h"
+#include "InvestmentMarket.h"
+#include "Stock.h"
+#include "DividendMixin.h"
+#include "DividendStock.h"
+#include "PriceUpdater.h"
+#include "UserInterface.h"
+#include <curl/curl.h>
+#include <nlohmann/json.hpp>
 
-#include "Investment.cpp"
-#include "InvestmentMarket.cpp"
-using namespace std;
+int main() {
+    // Replace "YOUR_API_KEY" with your Alpha Vantage API key
+    std::string apiKey = "YOUR_API_KEY";
 
-int main () {
+    // Create vector of investments automatically using a loop
+    std::vector<Investment*> investments;
 
-    /*
-    // Test Investment class
-    Investment investment1("Apple", "AAPL", 10, 100.00, 120.00, "01/01/2021", "John Doe");
-    Investment investment2("Google", "GOOG", 20, 200.00, 220.00, "01/01/2021", "John Doe");
-    Investment investment3("Tesla", "TSLA", 30, 300.00, 320.00, "01/01/2021", "John Doe");
+    // List of DividendStock data
+    std::vector<std::tuple<std::string, std::string, std::string>> dividendStockData = {
+        {"Microsoft Corporation", "MSFT", apiKey},
+        {"Apple Inc.", "AAPL", apiKey},
+        {"Amazon Inc.", "AMZN", apiKey},
+        {"Facebook Inc.", "META", apiKey},
+        {"Google LLC.", "GOOGL", apiKey}
+    };
 
-    vector<Investment> investments;
-    investments.push_back(investment1);
-    investments.push_back(investment2);
-    investments.push_back(investment3);
+    // Create DividendStock instances and add them to the investments vector
+    for (const auto& data : dividendStockData) {
+        const std::string& name = std::get<0>(data);
+        const std::string& symbol = std::get<1>(data);
+        const std::string& stockApiKey = std::get<2>(data);
 
-    for (int i = 0; i < investments.size(); i++)
-    {
-        cout << investments[i].GetName() << endl;
-        cout << investments[i].GetSymbol() << endl;
-        cout << investments[i].GetQuantity() << endl;
-        cout << investments[i].GetPurchasePrice() << endl;
-        cout << investments[i].GetCurrentPrice() << endl;
-        cout << investments[i].GetDateOfPurchase() << endl;
-        cout << investments[i].GetOwner() << endl;
-        cout << investments[i].CalculateCurrentPrice() << endl;
-        cout << investments[i].CalculateProfitLoss() << endl;
-        cout << endl;
-    }
-    */
-
-   // -------------------------------------------------------------------------------------------
-
-   /*
-   // Test InvestmentMarket class
-    InvestmentMarket market;
-    Investment investment1("Apple", "AAPL", 10, 100.00, 120.00, "01/01/2021", "John Doe");
-    Investment investment2("Google", "GOOG", 20, 200.00, 220.00, "01/01/2021", "John Doe");
-    Investment investment3("Tesla", "TSLA", 30, 300.00, 320.00, "01/01/2021", "John Doe");
-
-    market.AddInvestment(investment1);
-    market.AddInvestment(investment2);
-    market.AddInvestment(investment3);
-
-    vector<Investment> investments = market.getAvaliableInvestments();
-
-    //code to display all investments
-    for (int i = 0; i < investments.size(); i++)
-    {
-        cout << investments[i].GetName() << endl;
-        cout << investments[i].GetSymbol() << endl;
-        cout << investments[i].GetQuantity() << endl;
-        cout << investments[i].GetPurchasePrice() << endl;
-        cout << investments[i].GetCurrentPrice() << endl;
-        cout << investments[i].GetDateOfPurchase() << endl;
-        cout << investments[i].GetOwner() << endl;
-        cout << investments[i].CalculateCurrentPrice() << endl;
-        cout << investments[i].CalculateProfitLoss() << endl;
-        cout << endl;
+        DividendStock* dividendStock = new DividendStock(name, symbol, stockApiKey);
+        investments.push_back(dividendStock);
     }
 
-    // code to remove an investment from the market
-    market.RemoveInvestment(investment1);
+    // Create instance of UserInterface
+    UserInterface userInterface(investments);
 
-    investments = market.getAvaliableInvestments();
+    // Show menu
+    userInterface.showMenu();
 
-    //code to display all investments
-    for (int i = 0; i < investments.size(); i++)
-    {
-        cout << investments[i].GetName() << endl;
-        cout << investments[i].GetSymbol() << endl;
-        cout << investments[i].GetQuantity() << endl;
-        cout << investments[i].GetPurchasePrice() << endl;
-        cout << investments[i].GetCurrentPrice() << endl;
-        cout << investments[i].GetDateOfPurchase() << endl;
-        cout << investments[i].GetOwner() << endl;
-        cout << investments[i].CalculateCurrentPrice() << endl;
-        cout << investments[i].CalculateProfitLoss() << endl;
-        cout << endl;
+    // Clean up
+    for (Investment* investment : investments) {
+        delete investment;
     }
-    */
-
-   // ------------------------------------------------------------------------------------------
 
     return 0;
 }

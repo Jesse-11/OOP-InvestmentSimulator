@@ -1,23 +1,16 @@
-#include <iostream>
+#ifndef INVESTMENTMARKET_H
+#define INVESTMENTMARKET_H
+
 #include <string>
-#include <vector>
-#include "Investment.h"
 using namespace std;
 
-class InvestmentMarket
-{
+class Investment;
 
-    public:
-
-        void AddInvestment(Investment& investment); // Add an investment to the market
-        void RemoveInvestment(Investment& investment); // Remove an investment from the market
-
-        // Getters
-        vector<Investment>& getAvaliableInvestments(){ return avaliableInvestments; } // Get all the investments in the market
-
-    private:
-        vector<Investment> avaliableInvestments; // All the investments in the market
-
-
-
+class InvestmentMarket {
+public:
+    virtual ~InvestmentMarket() {}
+    virtual void displayInvestments() const = 0;
+    virtual Investment* getInvestmentBySymbol(const string& symbol) const = 0;
 };
+
+#endif // INVESTMENTMARKET_H
