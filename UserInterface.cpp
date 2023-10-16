@@ -22,11 +22,14 @@ void UserInterface::showMenu() {
 
     // Show menu
     do {
+        std::cout << "----------------------------\n";
         std::cout << "\nChoose an option:\n";
         std::cout << "1. View Investments\n";
         std::cout << "2. View Current Price\n";
         std::cout << "3. Exit\n";
 
+        // Get user input
+        std::cout << "Enter your choice: ";
         std::cin >> choice;
 
         // User input validation
