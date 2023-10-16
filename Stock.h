@@ -12,6 +12,7 @@ using namespace std;
 class Stock : public Investment {
 public:
 
+    // Constructor
     Stock(const string& name, const string& symbol, const string& apiKey);
 
     // Display the information of the stock

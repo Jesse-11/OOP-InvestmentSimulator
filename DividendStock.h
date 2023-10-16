@@ -7,10 +7,14 @@ using namespace std;
 
 class DividendStock : public Stock, public DividendMixin {
 public:
+
+    // Constructor
     DividendStock(const string& name, const string& symbol, const string& apiKey);
 
+    // Display the stock information
     void displayInfo() const override;
 
+    // Clone the stock
     Investment* clone() const override;
 };
 
