@@ -28,3 +28,9 @@ clean:
 	rm -rf $(OBJDIR) $(BINDIR)
 
 .PHONY: all clean
+
+check_libraries:
+	@if ! pkg-config --exists libcurl jsoncpp; then \
+		echo "Libraries not found. Installing..."; \
+		sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libjsoncpp-dev; \
+	fi
